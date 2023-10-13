@@ -33,14 +33,14 @@ void Cmd_Help(int argc, char** argv);
 Cmd_Str* Cmd_FoundKeyword(const char *keyword) {
 
 	/***********************
-	*	´«Èë²ÎÊýºÏ·¨ÐÔ¼ì²â	*
+	*	ä¼ å…¥å‚æ•°åˆæ³•æ€§æ£€æµ‹	*
 	***********************/
 
 	ASSERT((Cmd_Link_Head == NULL), "Never Create KeyWord");
-	ASSERT((*keyword == "\0"), "Keyword is NULL");		//Î´ÊäÈëÃüÁîÃû
+	ASSERT((*keyword == "\0"), "Keyword is NULL");		//æœªè¾“å…¥å‘½ä»¤å
 
 	/***************
-	*	Á´±íµÄ±éÀú	*
+	*	é“¾è¡¨çš„éåŽ†	*
 	****************/
 
 	Cmd_Str* Cmd_KeywordFound = Cmd_Link_Head;
@@ -60,42 +60,42 @@ void Shell_KeywordAdd(const char *keyword, pfunc pfuncCmd )
 {
 
 	/***********************
-	*	´«Èë²ÎÊýºÏ·¨ÐÔ¼ì²â	*
+	*	ä¼ å…¥å‚æ•°åˆæ³•æ€§æ£€æµ‹	*
 	***********************/
 
-	ASSERT((*keyword == "\0"), "Keyword is NULL");		//Î´ÊäÈëÃüÁîÃû
-	ASSERT(pfuncCmd == NULL, "funcCmd is NULL");		//Î´Ö¸¶¨ÃüÁî»Øµ÷º¯Êý
+	ASSERT((*keyword == "\0"), "Keyword is NULL");		//æœªè¾“å…¥å‘½ä»¤å
+	ASSERT(pfuncCmd == NULL, "funcCmd is NULL");		//æœªæŒ‡å®šå‘½ä»¤å›žè°ƒå‡½æ•°
 
 	/************************
-	*	ÉêÇë²¢³õÊ¼»¯½á¹¹Ìå	*
+	*	ç”³è¯·å¹¶åˆå§‹åŒ–ç»“æž„ä½“	*
 	************************/
 
-	Cmd_Str *New_Cmd = malloc(sizeof(Cmd_Str)); //ÉêÇëÄÚ´æ
-	ASSERT(New_Cmd == NULL, "Cmd malloc failed");	//ÄÚ´æÉêÇëÊ§°Ü
+	Cmd_Str *New_Cmd = malloc(sizeof(Cmd_Str)); //ç”³è¯·å†…å­˜
+	ASSERT(New_Cmd == NULL, "Cmd malloc failed");	//å†…å­˜ç”³è¯·å¤±è´¥
 
 
-	memset(New_Cmd, 0, sizeof(Cmd_Str));	//³õÊ¼»¯¸Õ¸ÕÉêÇëµÄÄÚ´æ
+	memset(New_Cmd, 0, sizeof(Cmd_Str));	//åˆå§‹åŒ–åˆšåˆšç”³è¯·çš„å†…å­˜
 
 	New_Cmd->Cmd_Keyword = malloc(strlen(keyword));
-	ASSERT(New_Cmd->Cmd_Keyword == NULL, "Cmd malloc failed");	//ÄÚ´æÉêÇëÊ§°Ü
-	memset(New_Cmd->Cmd_Keyword, 0, strlen(New_Cmd->Cmd_Keyword));	//³õÊ¼»¯¸Õ¸ÕÉêÇëµÄÄÚ´æ
+	ASSERT(New_Cmd->Cmd_Keyword == NULL, "Cmd malloc failed");	//å†…å­˜ç”³è¯·å¤±è´¥
+	memset(New_Cmd->Cmd_Keyword, 0, strlen(New_Cmd->Cmd_Keyword));	//åˆå§‹åŒ–åˆšåˆšç”³è¯·çš„å†…å­˜
 
-	memcpy(New_Cmd->Cmd_Keyword, keyword, strlen(keyword));	//½«ÃüÁîÃû¿½±´µ½½á¹¹Ìå
-	New_Cmd->pFuncCommand = pfuncCmd;	//½«ÃüÁî»Øµ÷º¯ÊýÖ¸Õë¸³Öµµ½½á¹¹Ìå
+	memcpy(New_Cmd->Cmd_Keyword, keyword, strlen(keyword));	//å°†å‘½ä»¤åæ‹·è´åˆ°ç»“æž„ä½“
+	New_Cmd->pFuncCommand = pfuncCmd;	//å°†å‘½ä»¤å›žè°ƒå‡½æ•°æŒ‡é’ˆèµ‹å€¼åˆ°ç»“æž„ä½“
 
 	/***************
-	*	Á´±íµÄÁ´½Ó	*
+	*	é“¾è¡¨çš„é“¾æŽ¥	*
 	***************/
 
-	if (Cmd_Link_Head == NULL) {	//µÚÒ»´Î´´½¨
-		Cmd_Link_Head = New_Cmd;	//¸üÐÂÁ´±íÍ·
-		Cmd_Link_end = New_Cmd;		//¸üÐÂÁ´±íÎ²
+	if (Cmd_Link_Head == NULL) {	//ç¬¬ä¸€æ¬¡åˆ›å»º
+		Cmd_Link_Head = New_Cmd;	//æ›´æ–°é“¾è¡¨å¤´
+		Cmd_Link_end = New_Cmd;		//æ›´æ–°é“¾è¡¨å°¾
 		Shell_KeywordAdd("help", Cmd_Help);
-		Shell_HelpArgAdd("help", "°ïÖú");
+		Shell_HelpArgAdd("help", "CMD_LIST");
 	}
 	else {
-		Cmd_Link_end->next = New_Cmd;	//½«±¾´Î´´½¨µÄ½á¹¹ÌåÁ¬½Óµ½Á´±íÎ²
-		Cmd_Link_end = New_Cmd;	//¸üÐÂÏÖÔÚµÄÁ´±íÎ²
+		Cmd_Link_end->next = New_Cmd;	//å°†æœ¬æ¬¡åˆ›å»ºçš„ç»“æž„ä½“è¿žæŽ¥åˆ°é“¾è¡¨å°¾
+		Cmd_Link_end = New_Cmd;	//æ›´æ–°çŽ°åœ¨çš„é“¾è¡¨å°¾
 	}
 
 }
@@ -108,7 +108,7 @@ void Shell_FormatAdd(const char* keyword, const char* format) {
 	Cmd_Str* Cmd_Str_Found = NULL;
 
 	/***************
-	*	±éÀúÃüÁî±í	*
+	*	éåŽ†å‘½ä»¤è¡¨	*
 	****************/
 
 	Cmd_Str_Found = Cmd_FoundKeyword(keyword);
@@ -117,45 +117,46 @@ void Shell_FormatAdd(const char* keyword, const char* format) {
 	}
 
 	Cmd_Str_Found->Cmd_format_arg = malloc(strlen(format));
-	ASSERT(Cmd_Str_Found->Cmd_format_arg == NULL, "Cmd malloc failed");	//ÄÚ´æÉêÇëÊ§°Ü
-	memset(Cmd_Str_Found->Cmd_format_arg, 0, strlen(Cmd_Str_Found->Cmd_format_arg));	//³õÊ¼»¯¸Õ¸ÕÉêÇëµÄÄÚ´æ
+	ASSERT(Cmd_Str_Found->Cmd_format_arg == NULL, "Cmd malloc failed");	//å†…å­˜ç”³è¯·å¤±è´¥
+
+	memset(Cmd_Str_Found->Cmd_format_arg, 0, strlen(Cmd_Str_Found->Cmd_format_arg));	//åˆå§‹åŒ–åˆšåˆšç”³è¯·çš„å†…å­˜
 	memcpy(Cmd_Str_Found->Cmd_format_arg, format, strlen(format));
 
 	if (Cmd_Str_Found->Cmd_Format != NULL) return;
 
-	//½âÎö¹Ø¼ü×Ö
-	for ( ; *format != '\0'; format++) { //±éÀúµ½×Ö·û´®Î²
+	//è§£æžå…³é”®å­—
+	for ( ; *format != '\0'; format++) { //éåŽ†åˆ°å­—ç¬¦ä¸²å°¾
 		
-		if (*format == '[') {	// ¼ì²âµ½¹Ø¼ü×Ö 	
+		if (*format == '[') {	// æ£€æµ‹åˆ°å…³é”®å­— 	
 			Cmd_Format_init* Cmd_Format = NULL;	//
 			Cmd_Format = malloc(sizeof(Cmd_Format_init));
 			if (Cmd_Format == NULL) return;
 			memset(Cmd_Format, 0, sizeof(Cmd_Format_init));
 
-			Cmd_Format->Val_Type = 0; //³õÊ¼»¯¹Ø¼ü×ÖÀàÐÍ
+			Cmd_Format->Val_Type = 0; //åˆå§‹åŒ–å…³é”®å­—ç±»åž‹
 
-			format++; //ÇÐ»»µ½ÏÂÒ»¸ö×Ö·û
-			for (int i=0; *format != ']'; format++,i++) { //È¡³ö¹Ø¼ü×Ö
-				if (*format == '\0') {	// [] °üº¬¹Ø¼ü×ÖµÄ·½À¨ºÅ ²»ÍêÕû
-					free(Cmd_Format);	//ÊÍ·ÅÄÚ´æ
-					return;	//ÍË³ö
+			format++; //åˆ‡æ¢åˆ°ä¸‹ä¸€ä¸ªå­—ç¬¦
+			for (int i=0; *format != ']'; format++,i++) { //å–å‡ºå…³é”®å­—
+				if (*format == '\0') {	// [] åŒ…å«å…³é”®å­—çš„æ–¹æ‹¬å· ä¸å®Œæ•´
+					free(Cmd_Format);	//é‡Šæ”¾å†…å­˜
+					return;	//é€€å‡º
 				}
-				Cmd_Format->Format[i] = *format; //½«¹Ø¼ü×Ö´æÈë½á¹¹Ìå
+				Cmd_Format->Format[i] = *format; //å°†å…³é”®å­—å­˜å…¥ç»“æž„ä½“
 			}
-			if (Cmd_Str_Found->Cmd_Format == NULL) {	//ÊÇ·ñÎªµÚÒ»´Î
-				Cmd_Str_Found->Cmd_Format = Cmd_Format;	//Ìí¼Ó¹Ø¼ü×Ö
-				Cmd_Format_Now = Cmd_Format;	//¸üÐÂµ±Ç°¹Ø¼ü×ÖÖ¸Õë
+			if (Cmd_Str_Found->Cmd_Format == NULL) {	//æ˜¯å¦ä¸ºç¬¬ä¸€æ¬¡
+				Cmd_Str_Found->Cmd_Format = Cmd_Format;	//æ·»åŠ å…³é”®å­—
+				Cmd_Format_Now = Cmd_Format;	//æ›´æ–°å½“å‰å…³é”®å­—æŒ‡é’ˆ
 			}
-			else { //²»ÊÇµÚÒ»´Î´æ´¢
-				Cmd_Format_Now->next = Cmd_Format; //½«ÐÂÉêÇëµÄ½á¹¹ÌåÁ´½Óµ½¹Ø¼ü×ÖÎ²
-				Cmd_Format_Now = Cmd_Format;	//¸üÐÂµ±Ç°¹Ø¼ü×ÖÖ¸Õë
+			else { //ä¸æ˜¯ç¬¬ä¸€æ¬¡å­˜å‚¨
+				Cmd_Format_Now->next = Cmd_Format; //å°†æ–°ç”³è¯·çš„ç»“æž„ä½“é“¾æŽ¥åˆ°å…³é”®å­—å°¾
+				Cmd_Format_Now = Cmd_Format;	//æ›´æ–°å½“å‰å…³é”®å­—æŒ‡é’ˆ
 			}
 
-			Format_Count++;		//¹Ø¼ü×ÖÊýÁ¿¼Ó1
+			Format_Count++;		//å…³é”®å­—æ•°é‡åŠ 1
 
 		}		
 	}
-	Cmd_Str_Found->Format_Count = Format_Count; //¸³Öµ¹Ø¼ü×ÖÊýÁ¿
+	Cmd_Str_Found->Format_Count = Format_Count; //èµ‹å€¼å…³é”®å­—æ•°é‡
 }
 
 void Shell_HelpArgAdd(const char* keyword, const char* help_arg) {
@@ -169,9 +170,9 @@ void Shell_HelpArgAdd(const char* keyword, const char* help_arg) {
 
 
 	Cmd_Str_Found->Cmd_help_arg = malloc(strlen(help_arg));
-	ASSERT(Cmd_Str_Found->Cmd_help_arg == NULL, "Cmd malloc failed");	//ÄÚ´æÉêÇëÊ§°Ü
-	memset(Cmd_Str_Found->Cmd_help_arg, 0, strlen(Cmd_Str_Found->Cmd_help_arg));	//³õÊ¼»¯¸Õ¸ÕÉêÇëµÄÄÚ´æ
+	ASSERT(Cmd_Str_Found->Cmd_help_arg == NULL, "Cmd malloc failed");	//å†…å­˜ç”³è¯·å¤±è´¥
 
+	memset(Cmd_Str_Found->Cmd_help_arg, 0, strlen(Cmd_Str_Found->Cmd_help_arg));	//åˆå§‹åŒ–åˆšåˆšç”³è¯·çš„å†…å­˜
 	memcpy(Cmd_Str_Found->Cmd_help_arg, help_arg, strlen(help_arg));
 }
 
@@ -183,19 +184,19 @@ int Shell_Keyparse(const char *buf) {
 	Cmd_Format_init* Cmd_Format_now = NULL;
 
 	/***************************
-	*	ÌáÈ¡ÃüÁî²¢±éÀúÃüÁî±í	*
+	*	æå–å‘½ä»¤å¹¶éåŽ†å‘½ä»¤è¡¨	*
 	****************************/
-
+	
 	cformat = strtok((char *)buf, " ");
-	if (cformat == NULL) return CMD_NOT_FOUND;  //ÎÞÃüÁî
+	if (cformat == NULL) return CMD_NOT_FOUND;  //æ— å‘½ä»¤
 	
 	Cmd_keywordFound = Cmd_FoundKeyword(cformat); 
-	if (Cmd_keywordFound == NULL) return CMD_NOT_FOUND; //ÎÞÃüÁî
+	if (Cmd_keywordFound == NULL) return CMD_NOT_FOUND; //æ— å‘½ä»¤
 	
 	Cmd_Format_now = Cmd_keywordFound->Cmd_Format; 
 
 	/*******************************
-	*	ÌáÈ¡ÊäÈë²ÎÊý²¢´æÈë¹Ø¼ü×Ö	*
+	*	æå–è¾“å…¥å‚æ•°å¹¶å­˜å…¥å…³é”®å­—	*
 	********************************/
 
 	buf = buf + (strlen(Cmd_keywordFound->Cmd_Keyword) + 1);
@@ -208,7 +209,7 @@ int Shell_Keyparse(const char *buf) {
 	if (*buf == '\0') return CMD_NOT_FOUND;
 
 
-	for (int formet_count = 0; Cmd_Format_now != NULL; formet_count++) {  //ÌîÈë ¶ÔÓ¦¹Ø¼ü×ÖµÄÖµ
+	for (int formet_count = 0; Cmd_Format_now != NULL; formet_count++) {  //å¡«å…¥ å¯¹åº”å…³é”®å­—çš„å€¼
 		cformat = strtok(NULL, " ");
 		if (cformat == NULL) return CMD_FUNC_BUT_FORMAT_ERR;
 		memcpy((void*)Cmd_Format_now->Val, cformat, sizeof(Cmd_Format_now->Val));
@@ -220,15 +221,15 @@ int Shell_Keyparse(const char *buf) {
 	}
 
 	/******************************
-	*	½«²ÎÊý´«¸øÃüÁîµÄ»Øµ÷º¯Êý	*
+	*	å°†å‚æ•°ä¼ ç»™å‘½ä»¤çš„å›žè°ƒå‡½æ•°	*
 	*******************************/
 
-	cformat = strtok(NULL, " "); //ÊÇ·ñ»¹ÓÐÊý¾Ý
-	if (cformat == NULL) { //ÎÞÊý¾Ý ËµÃ÷ ²ÎÊýÊäÈëÕýÈ·
-		Cmd_keywordFound->pFuncCommand(Cmd_keywordFound->Format_Count, argv); //ÃüÁîº¯Êý»Øµ÷
+	cformat = strtok(NULL, " "); //æ˜¯å¦è¿˜æœ‰æ•°æ®
+	if (cformat == NULL) { //æ— æ•°æ® è¯´æ˜Ž å‚æ•°è¾“å…¥æ­£ç¡®
+		Cmd_keywordFound->pFuncCommand(Cmd_keywordFound->Format_Count, argv); //å‘½ä»¤å‡½æ•°å›žè°ƒ
 	}
 	else {
-		return CMD_FUNC_BUT_FORMAT_ERR;	//»¹ÓÐÊý¾Ý£¬ËµÃ÷ÊäÈë²ÎÊýÊýÁ¿ ´óÓÚ ÉèÖÃÊ±µÄ²ÎÊýÊýÁ¿£¬ÅÐ¶¨Ö¸Áî´æÔÚµ«ÅäÖÃ²ÎÊý´íÎó
+		return CMD_FUNC_BUT_FORMAT_ERR;	//è¿˜æœ‰æ•°æ®ï¼Œè¯´æ˜Žè¾“å…¥å‚æ•°æ•°é‡ å¤§äºŽ è®¾ç½®æ—¶çš„å‚æ•°æ•°é‡ï¼Œåˆ¤å®šæŒ‡ä»¤å­˜åœ¨ä½†é…ç½®å‚æ•°é”™è¯¯
 	}
 
 	return CMD_OK;
@@ -240,12 +241,13 @@ void Cmd_Help(int argc, char** argv) {
 	ASSERT((Cmd_Link_Head == NULL), "Never Create KeyWord");
 	
 	Cmd_Str* Cmd_Link = Cmd_Link_Head;
-
+	printf("=====HELP_LIST=====\r\n");
 	while (Cmd_Link != NULL) {
 		printf("%s %s\t%s\r\n", 
 					Cmd_Link->Cmd_Keyword, 
-					(Cmd_Link->Cmd_format_arg != NULL)?Cmd_Link->Cmd_format_arg: " ", 
-					(Cmd_Link->Cmd_help_arg != NULL) ? Cmd_Link->Cmd_help_arg : " ");
+					(Cmd_Link->Cmd_format_arg != NULL)?Cmd_Link->Cmd_format_arg: "", 
+					(Cmd_Link->Cmd_help_arg != NULL) ? Cmd_Link->Cmd_help_arg : "");
 		Cmd_Link = Cmd_Link->next;
 	}
+	printf("========END========\r\n");
 }
