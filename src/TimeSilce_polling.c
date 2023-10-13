@@ -217,12 +217,14 @@ static Framework_Task_Info *Task_Delete(Framework_Task_Info *Task) {
     while(TaskRemarks_Running);
     // SysTick_CTLR->STIE = 0;
     if(Task == NULL) return NULL;
-
+    if(Task_count <= 1) return Task;
+    
     if(Task->Task_back != NULL) {
         Task->Task_back->Task_next = Task->Task_next;
         Task->Task_next->Task_back = Task->Task_back;
     } else {
         Task_head = Task->Task_next;
+        
         Task->Task_next->Task_back = NULL;
     }
 
