@@ -1,7 +1,13 @@
 #ifndef APPLICATION_FAULT_DETECTION_FAULTDETECTION_H_
 #define APPLICATION_FAULT_DETECTION_FAULTDETECTION_H_
 
-#include "ch32v20x.h"
+#include "stdio.h"
+
+#ifdef __CORE_RISCV_H__
+
+#else
+    typedef enum {DISABLE = 0, ENABLE = !DISABLE} FunctionalState;
+#endif
 
 typedef enum{
     Less_than,                  //小于
@@ -43,6 +49,10 @@ typedef struct FaultDetection_Info{
     struct FaultDetection_Info      *FalDet_next;
 }FaultDetection_Info;
 
+#ifdef __cplusplus 
+extern "C" {
+#endif
+
 void Fault_show(uint16_t ms);
 void Fault_INFO_show(uint16_t ms);
 void FaultDet_Func(uint16_t ms); //故障响应
@@ -51,5 +61,9 @@ void FaultDet_Timecount(uint16_t ms); //故障计数
 void Remove_FaultDatflag(char *name); //移除故障标志
 void FaultDat_ENABLE(char *name, FunctionalState NewState); //故障检测是否使能
 void Creat_FaultDetection(char *name, FalutDetection_Init *Init, FunctionalState NewState); //创建故障监测
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* APPLICATION_FAULT_DETECTION_FAULTDETECTION_H_ */

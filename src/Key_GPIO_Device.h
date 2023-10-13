@@ -1,7 +1,7 @@
 #ifndef __FRAMEWORCK_KEY_DEVICE_H
 #define __FRAMEWORCK_KEY_DEVICE_H
 
-#include "ch32v20x.h"
+#include "stdio.h"
 
 typedef enum{
     No_Process,         //未按下
@@ -39,7 +39,15 @@ typedef struct FrameWorkKey_Info{
     struct FrameWorkKey_Info *pNext;
 }FrameWorkKey_Info;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 void Creat_Key(uint8_t Polarity, uint16_t Long_Process_time_set,uint8_t (*pGetKeyState_Func)(void), uint8_t (*pProcess_Func)(FrameWork_ProcessTypes_Index Process_Types)); //创建按键
 void Key_Scan(uint16_t ms); //按键扫描
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

@@ -1,7 +1,10 @@
 #include "TimeSilce_polling.h"
-#include "SystemTick.h"
+// #include "SystemTick.h"
 #include "stdlib.h"
 #include "string.h"
+
+//此处请填写当前时钟滴答定时器设定的时间
+#define _SYSTEM_TICK_MS     (10) //ms
 
 static Framework_Task_Info *Task_head = NULL;
 static uint32_t Task_tick = 0;
@@ -19,15 +22,15 @@ static Framework_Task_Info *Task_Delete(Framework_Task_Info *Task);
  */
 void CreatTask_Func(uint8_t Task_ID, uint32_t Time, void (*TaskHook)(uint16_t ms)) 
 {
-    SysTick_CTLR->STIE = 0;
+    // SysTick_CTLR->STIE = 0;
     if(TaskHook == NULL) return ;
 
     Framework_Task_Info *Creat_Task = malloc(sizeof(Framework_Task_Info));
     memset(Creat_Task, 0, sizeof(Framework_Task_Info)); //初始化保险点，不然链表中 next 变量不是NULL
 
     if(Time < 10) Time = 10;
-    Creat_Task->Task_Cfg.Time = Time / systick_ms;
-    Creat_Task->Task_Cfg.ItvTime = Time / systick_ms;
+    Creat_Task->Task_Cfg.Time = Time / _SYSTEM_TICK_MS;
+    Creat_Task->Task_Cfg.ItvTime = Time / _SYSTEM_TICK_MS;
     Creat_Task->Task_Cfg.TaskHook = TaskHook;
     Creat_Task->Task_ID = Task_ID;
     Creat_Task->NewState = Task_State_Run;
@@ -41,8 +44,8 @@ void CreatTask_Func(uint8_t Task_ID, uint32_t Time, void (*TaskHook)(uint16_t ms
         Creat_Task->Task_back = Temp; //前一个
         Task_count ++;
     }
-    SysTick_CTLR->STIE = 1;
-    Application_SysTick_SR_Clear();
+    // SysTick_CTLR->STIE = 1;
+    // Application_SysTick_SR_Clear();
 
 }
 
@@ -87,7 +90,7 @@ void TaskProcess(void)
     while(Task != NULL) {
         if(Task->NewState != Task_State_Run) {Task = Task->Task_next; continue;}
         if(Task->Task_Cfg.Run) {
-            Task->Task_Cfg.TaskHook(Task->Task_Cfg.ItvTime * systick_ms);//一个单位10ms
+            Task->Task_Cfg.TaskHook(Task->Task_Cfg.ItvTime * _SYSTEM_TICK_MS);//一个单位10ms
             Task->Task_Cfg.Run = 0;
             if(Task->Task_Cfg.Run_Count > 0) {
                 Task->Task_Cfg.Run_Count --;
@@ -135,8 +138,8 @@ void Task_Cfg_Time(uint8_t Task_ID, uint32_t Time, uint32_t ItvTime) {
     
     while(Task != NULL) {
         if(Task->Task_ID == Task_ID) {
-            Task->Task_Cfg.Time = Time / systick_ms;
-            Task->Task_Cfg.ItvTime = ItvTime / systick_ms;
+            Task->Task_Cfg.Time = Time / _SYSTEM_TICK_MS;
+            Task->Task_Cfg.ItvTime = ItvTime / _SYSTEM_TICK_MS;
             break;
         }
         Task = Task->Task_next; 
@@ -205,14 +208,14 @@ void Task_Cfg_Life(uint8_t Task_ID, uint16_t Run_Count, void(*Delete_TaskHook)(v
 }
 
 /**
- * @brief 任务删除（不允许任务调用，怕出事）
+ * @brief 任务删除（不允许用户调用，怕出事）
  * 
  * @param Task 任务链表
  * @return Framework_Task_Info* 下一个任务链表地址
  */
 static Framework_Task_Info *Task_Delete(Framework_Task_Info *Task) {
     while(TaskRemarks_Running);
-    SysTick_CTLR->STIE = 0;
+    // SysTick_CTLR->STIE = 0;
     if(Task == NULL) return NULL;
 
     if(Task->Task_back != NULL) {
@@ -228,8 +231,8 @@ static Framework_Task_Info *Task_Delete(Framework_Task_Info *Task) {
     free(Task);
     Task_count --;
 
-    SysTick_CTLR->STIE = 1;
-    Application_SysTick_SR_Clear();
+    // SysTick_CTLR->STIE = 1;
+    // Application_SysTick_SR_Clear();
     return ret;
 }
 
@@ -265,11 +268,13 @@ void Task_show(uint16_t ms){
     printf("| Task_ID\t| ItvTime(ms)\t| Run_Count\t| Time\t| Task_State\t|\r\n");
     while(Task != NULL) {
         printf("| %d\t\t| %ld\t\t| %d\t\t| %ld\t| %s\t|\r\n", Task->Task_ID, 
-                                                        Task->Task_Cfg.ItvTime * systick_ms, 
+                                                        Task->Task_Cfg.ItvTime * _SYSTEM_TICK_MS, 
                                                         Task->Task_Cfg.Run_Count, 
-                                                        Task->Task_Cfg.Time * systick_ms, 
+                                                        Task->Task_Cfg.Time * _SYSTEM_TICK_MS, 
                                                         Task->NewState?"Task_Supend":"Task_Run");
         Task = Task->Task_next; 
     }
     printf("=========================================================================\r\n");
 }
+
+#undef _SYSTEM_TICK_MS

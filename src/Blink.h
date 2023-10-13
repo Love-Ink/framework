@@ -3,12 +3,6 @@
 
 #include <stdio.h>
 
-#define true 1
-#define false 0
-
-
-
-
 //Blink初始化函数
 typedef struct {
 
@@ -37,8 +31,17 @@ typedef struct Blink_Info{
     struct Blink_Info *Blink_next;
 }Blink_Info;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 void BlinkDevice_Scan(uint16_t ms);
 void BlinkDevice_Creat(const char *Name, void(*ioctrl)(uint8_t state), uint32_t (*Get_tick)(void));
 void BlinkDevice_Config(const char *Name, uint16_t OnTime, uint16_t OffTime, uint8_t repeats);
 void BlinkDevice_Show(uint16_t ms);
+
+#ifdef __cplusplus
+}
+#endif
+
 #endif

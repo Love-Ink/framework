@@ -4,6 +4,9 @@
 
 static Blink_Info *Blink_head = NULL; 
 
+#define true 1
+#define false 0
+
 /**
  * @brief 创建Blink设备
  * 
@@ -129,3 +132,6 @@ void BlinkDevice_Show(uint16_t ms) {
     }
     printf("=========================================\r\n");
 }
+
+#undef true
+#undef false
