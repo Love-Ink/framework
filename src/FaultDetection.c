@@ -137,7 +137,7 @@ void FaultDet_Func(uint16_t ms) {
 }
 
 //移除故障标志
-void Remove_FaultDatflag(char *name){
+void Remove_FaultDetflag(char *name){
         if(FaultDetection_Head == NULL) return ;
 
     FaultDetection_Info *Fault_Info = FaultDetection_Head;
@@ -153,7 +153,7 @@ void Remove_FaultDatflag(char *name){
     }
 }
 
-void FaultDat_ENABLE(char *name, FunctionalState NewState){
+void FaultDat_Config_State(char *name, FunctionalState NewState){
         if(FaultDetection_Head == NULL) return ;
 
     FaultDetection_Info *Fault_Info = FaultDetection_Head;
