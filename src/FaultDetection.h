@@ -59,7 +59,7 @@ void FaultDet_Func(uint16_t ms); //故障响应
 void FaultDet_Compare(uint16_t ms); //故障判断
 void FaultDet_Timecount(uint16_t ms); //故障计数
 void Remove_FaultDetflag(char *name); //移除故障标志
-void FaultDat_Config_State(char *name, FunctionalState NewState); //故障检测是否使能
+void FaultDet_Config_State(char *name, FunctionalState NewState); //故障检测是否使能
 void Creat_FaultDetection(char *name, FalutDetection_Init *Init, FunctionalState NewState); //创建故障监测
 
 #ifdef __cplusplus

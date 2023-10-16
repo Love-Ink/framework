@@ -153,7 +153,7 @@ void Remove_FaultDetflag(char *name){
     }
 }
 
-void FaultDat_Config_State(char *name, FunctionalState NewState){
+void FaultDet_Config_State(char *name, FunctionalState NewState){
         if(FaultDetection_Head == NULL) return ;
 
     FaultDetection_Info *Fault_Info = FaultDetection_Head;
