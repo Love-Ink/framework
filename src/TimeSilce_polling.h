@@ -2,7 +2,7 @@
 #define __FRAMEWORK_TIMESILECE_POLLING_H
 
 #include "stdio.h"
-
+#include "stdint.h"
 
 typedef enum {
     Task_State_Run,     //任务状态为运行

@@ -50,7 +50,7 @@ void CreatTask_Func(uint8_t Task_ID, uint32_t Time, void (*TaskHook)(uint16_t ms
 }
 
 /**
- * @brief 任务标志处理  
+ * @brief 任务标志处理
  * @property 放入中断中
  */
 void TaskRemarks(void) 
@@ -62,13 +62,15 @@ void TaskRemarks(void)
     while(Task != NULL) {
         if(/*(Task->Task_Cfg.ItvTime) &&*/ (Task->NewState == Task_State_Run)) { //当前任务非挂起状态
             // printf("Time:%d,%d\r\n", Task->Task_Cfg.Time, Task_count);
-            if(Task->Task_Cfg.Time == 0) { //任务间隔时间为0，允许执行任务 
-                Task->Task_Cfg.Time = Task->Task_Cfg.ItvTime;
-                Task->Task_Cfg.Run = 1;
-            } else if (Task->Task_Cfg.Time <= Task->Task_Cfg.ItvTime) { //当任务计数合法，正常倒计时。
+            if (Task->Task_Cfg.Time <= Task->Task_Cfg.ItvTime) { //当任务计数合法，正常倒计时。
                 Task->Task_Cfg.Time --;
             } else { //当前任务计数不合法，初始化。
                 Task->Task_Cfg.Time = Task->Task_Cfg.ItvTime;
+            }
+
+            if(Task->Task_Cfg.Time == 0) { //任务间隔时间为0，允许执行任务
+                Task->Task_Cfg.Time = Task->Task_Cfg.ItvTime;
+                Task->Task_Cfg.Run = 1;
             }
         }
         Task = Task->Task_next;
@@ -215,7 +217,7 @@ void Task_Cfg_Life(uint8_t Task_ID, uint16_t Run_Count, void(*Delete_TaskHook)(v
  */
 static Framework_Task_Info *Task_Delete(Framework_Task_Info *Task) {
     while(TaskRemarks_Running);
-    // SysTick_CTLR->STIE = 0;
+    //  SysTick_CTLR->STIE = 0;
     if(Task == NULL) return NULL;
     if(Task_count <= 1) return Task;
     
@@ -233,8 +235,8 @@ static Framework_Task_Info *Task_Delete(Framework_Task_Info *Task) {
     free(Task);
     Task_count --;
 
-    // SysTick_CTLR->STIE = 1;
-    // Application_SysTick_SR_Clear();
+    //  SysTick_CTLR->STIE = 1;
+    //  Application_SysTick_SR_Clear();
     return ret;
 }
 

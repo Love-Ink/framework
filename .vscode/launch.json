@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "d:/Users/28936/Desktop/temp/framework/src",
-      "program": "d:/Users/28936/Desktop/temp/framework/src/build/Debug/outDebug",
+      "cwd": "d:/Users/28936/Desktop/temp/BCM/V2.0_BCMx/V2.0_BCMx/sdk/Debug",
+      "program": "d:/Users/28936/Desktop/temp/BCM/V2.0_BCMx/V2.0_BCMx/sdk/Debug/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

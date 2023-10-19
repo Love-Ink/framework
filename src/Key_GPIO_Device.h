@@ -2,6 +2,7 @@
 #define __FRAMEWORCK_KEY_DEVICE_H
 
 #include "stdio.h"
+#include "stdint.h"
 
 typedef enum{
     No_Process,         //未按下
@@ -20,7 +21,7 @@ typedef struct {
     uint8_t     Polarity;       //按键极性，按下是高电平还是低电平
     uint16_t    Long_Process_time_set;     //长按判断时间
     uint8_t (*pGetKeyState_Func)(void);    //按键值获取函数
-    uint8_t (*pProcess_Func)(FrameWork_ProcessTypes_Index Process_Types); //按键操作后自动执行
+    void (*pProcess_Func)(FrameWork_ProcessTypes_Index Process_Types); //按键操作后自动执行
 
 }CreatKey_InitTypedef, FrameWorkKey_Config;
 
@@ -43,7 +44,7 @@ typedef struct FrameWorkKey_Info{
 extern "C" {
 #endif
 
-void Creat_Key(uint8_t Polarity, uint16_t Long_Process_time_set,uint8_t (*pGetKeyState_Func)(void), uint8_t (*pProcess_Func)(FrameWork_ProcessTypes_Index Process_Types)); //创建按键
+void Creat_Key(uint8_t Polarity, uint16_t Long_Process_time_set,uint8_t (*pGetKeyState_Func)(void), void (*pProcess_Func)(FrameWork_ProcessTypes_Index Process_Types)); //创建按键
 void Key_Scan(uint16_t ms); //按键扫描
 
 #ifdef __cplusplus
